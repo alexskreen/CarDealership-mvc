@@ -93,8 +93,39 @@ namespace Cars.Models
 
     public static Car Find(int Id)
     {
-      Car placeholderCar = new Car();
-      return placeholderCar;
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlParameter carId = new MySqlParameter();
+      carId.ParameterName = "@carId";
+      carId.Value = Id;
+
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM cars WHERE id = " + Id + ";";
+
+
+      // cmd.CommandText = @"SELECT * FROM cars;";
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      // int CarId = rdr.Read().GetInt32(0);
+      // string carMake = rdr.GetString(1);
+      // string carModel = rdr.GetString(2);
+      // string carDescription = rdr.GetString(3);
+      // string carYear = rdr.GetString(4);
+      // int carPrice = rdr.GetInt32(5);
+
+      Car carResult = new Car();
+
+      while (rdr.Read())
+      {
+        carResult.Id = rdr.GetInt32(0);
+        carResult.Make = rdr.GetString(1);
+        carResult.Model = rdr.GetString(2);
+        carResult.Description = rdr.GetString(3);
+        carResult.Year = rdr.GetString(4);
+        carResult.Price = rdr.GetInt32(5);
+      }
+
+      return carResult;
     }
 
     public static List<Car> GetAll()
@@ -114,7 +145,7 @@ namespace Cars.Models
         string carDescription = rdr.GetString(3);
         string carYear = rdr.GetString(4);
         int carPrice = rdr.GetInt32(5);
-        Car newCar = new Car(carMake, carModel, carDescription, carYear, carPrice);
+        Car newCar = new Car(CarId, carMake, carModel, carDescription, carYear, carPrice);
         allCars.Add(newCar);
       }
       conn.Close();
