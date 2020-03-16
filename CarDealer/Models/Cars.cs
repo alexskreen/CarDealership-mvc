@@ -16,15 +16,13 @@ namespace Cars.Models
 
     public Car() { }
 
-    public Car(int id, string make, string model, string description, string year, int price)
+    public Car(string make, string model, string description, string year, int price)
     {
-      Id = id;
       Make = make;
       Model = model;
       Description = description;
       Year = year;
       Price = price;
-      // CarList.Add(this);
     }
 
     // public static List<Car> GetAll()
@@ -36,6 +34,51 @@ namespace Cars.Models
     // {
     //   _Cars.Clear();
     // }
+    public void Save()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+
+      // Begin new code
+      cmd.CommandText = @"INSERT INTO cars (make, model, description, year, price) VALUES (@carMake, @carModel, @carDecription, @carYear, @carPrice);";
+      MySqlParameter carMake = new MySqlParameter();
+      carMake.ParameterName = "@carMake";
+      carMake.Value = this.Make;
+
+      MySqlParameter carModel = new MySqlParameter();
+      carModel.ParameterName = "@carModel";
+      carModel.Value = this.Model;
+
+      MySqlParameter carDecription = new MySqlParameter();
+      carDecription.ParameterName = "@carDecription";
+      carDecription.Value = this.Description;
+
+      MySqlParameter carYear = new MySqlParameter();
+      carYear.ParameterName = "@carYear";
+      carYear.Value = this.Year;
+
+      MySqlParameter carPrice = new MySqlParameter();
+      carPrice.ParameterName = "@carPrice";
+      carPrice.Value = this.Price;
+
+      cmd.Parameters.Add(carMake);
+      cmd.Parameters.Add(carModel);
+      cmd.Parameters.Add(carYear);
+      cmd.Parameters.Add(carPrice);
+
+      cmd.ExecuteNonQuery();
+      Id = (int)cmd.LastInsertedId;
+
+      // End new code
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+
+    }
 
 
     public static Car Find(int Id)
@@ -60,7 +103,7 @@ namespace Cars.Models
         string description = rdr.GetString(3);
         string year = rdr.GetString(4);
         int price = rdr.GetInt32(4);
-        Car newCar = new Car(CarId, make, model, description, year, price);
+        Car newCar = new Car(make, model, description, year, price);
         allCars.Add(newCar);
       }
       conn.Close();
