@@ -14,10 +14,7 @@ namespace Cars.Models
     public int Id { get; set; }
 
 
-    public Car()
-    {
-
-    }
+    public Car() { }
 
     public Car(int id, string make, string model, string description, string year, string price)
     {
