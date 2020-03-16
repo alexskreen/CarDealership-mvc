@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ToDoList
+namespace Cars
 {
   public class Startup
   {
@@ -38,7 +38,11 @@ namespace ToDoList
       {
         await context.Response.WriteAsync("Something went wrong!");
       });
-
     }
+
+  }
+  public static class DBConfiguration
+  {
+    public static string ConnectionString = "server=localhost;user id=root;password=epicodus;port=3306;database=car_dealership;";
   }
 }
