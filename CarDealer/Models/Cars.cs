@@ -24,6 +24,15 @@ namespace Cars.Models
       Year = year;
       Price = price;
     }
+    public Car(int id, string make, string model, string description, string year, int price)
+    {
+      Id = id;
+      Make = make;
+      Model = model;
+      Description = description;
+      Year = year;
+      Price = price;
+    }
 
     // public static List<Car> GetAll()
     // {
@@ -96,15 +105,16 @@ namespace Cars.Models
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"SELECT * FROM cars;";
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+
       while (rdr.Read())
       {
         int CarId = rdr.GetInt32(0);
-        string make = rdr.GetString(1);
-        string model = rdr.GetString(2);
-        string description = rdr.GetString(3);
-        string year = rdr.GetString(4);
-        int price = rdr.GetInt32(5);
-        Car newCar = new Car(make, model, description, year, price);
+        string carMake = rdr.GetString(1);
+        string carModel = rdr.GetString(2);
+        string carDescription = rdr.GetString(3);
+        string carYear = rdr.GetString(4);
+        int carPrice = rdr.GetInt32(5);
+        Car newCar = new Car(carMake, carModel, carDescription, carYear, carPrice);
         allCars.Add(newCar);
       }
       conn.Close();
