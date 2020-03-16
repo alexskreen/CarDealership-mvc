@@ -10,13 +10,13 @@ namespace Cars.Models
     public string Model { get; set; }
     public string Description { get; set; }
     public string Year { get; set; }
-    public string Price { get; set; }
+    public int Price { get; set; }
     public int Id { get; set; }
 
 
     public Car() { }
 
-    public Car(int id, string make, string model, string description, string year, string price)
+    public Car(int id, string make, string model, string description, string year, int price)
     {
       Id = id;
       Make = make;
@@ -55,8 +55,12 @@ namespace Cars.Models
       while (rdr.Read())
       {
         int CarId = rdr.GetInt32(0);
-        // string itemDescription = rdr.GetString(1);
-        Car newCar = new Car(make, model, description, year, price);
+        string make = rdr.GetString(1);
+        string model = rdr.GetString(2);
+        string description = rdr.GetString(3);
+        string year = rdr.GetString(4);
+        int price = rdr.GetInt32(4);
+        Car newCar = new Car(CarId, make, model, description, year, price);
         allCars.Add(newCar);
       }
       conn.Close();
@@ -64,7 +68,7 @@ namespace Cars.Models
       {
         conn.Dispose();
       }
-      return allItems;
+      return allCars;
     }
 
 
