@@ -9,10 +9,9 @@ namespace Cars.Controllers
   {
 
     [HttpGet("/show-cars")]
-    public ActionResult ShowCars()
+    public ActionResult Index()
     {
       List<Car> newList = Car.GetAll();
-      Console.WriteLine("Car list count " + newList.Count);
       return View(newList);
     }
 
@@ -28,6 +27,13 @@ namespace Cars.Controllers
       Car newCar = new Car(make, model, description, year, price);
       newCar.Save();
       return RedirectToAction("ShowCars");
+    }
+
+    [HttpGet("/cars/{carId}")]
+    public ActionResult Show(int carId)
+    {
+      Car thisCar = Car.Find(carId);
+      return View(thisCar);
     }
 
   }

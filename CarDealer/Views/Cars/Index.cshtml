@@ -5,16 +5,15 @@
 
 <h1>Cars List</h1>
 
-<div class="card-group">
+<div class="card-columns">
   @foreach (Car car in Model)
   {
     <div class="card">
       <div class="card-img-top">
-
+        <img src="https://source.unsplash.com/300x200/?@car.Model" alt="">
       </div>
       <div class="card-body">
-
-        <h3 class="card-title">@car.Make</h3>
+        <a href="/cars/@car.Id"><h3 class="card-title">@car.Make</h3></a>
         <p class="card-text">@car.Model</p>
         <p class="card-text">@car.Description</p>
         <p class="card-text">@car.Year</p>
