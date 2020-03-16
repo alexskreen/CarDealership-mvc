@@ -41,7 +41,7 @@ namespace Cars.Models
       var cmd = conn.CreateCommand() as MySqlCommand;
 
       // Begin new code
-      cmd.CommandText = @"INSERT INTO cars (make, model, description, year, price) VALUES (@carMake, @carModel, @carDecription, @carYear, @carPrice);";
+      cmd.CommandText = @"INSERT INTO cars (make, model, description, year, price) VALUES (@carMake, @carModel, @carDescription, @carYear, @carPrice);";
       MySqlParameter carMake = new MySqlParameter();
       carMake.ParameterName = "@carMake";
       carMake.Value = this.Make;
@@ -50,9 +50,9 @@ namespace Cars.Models
       carModel.ParameterName = "@carModel";
       carModel.Value = this.Model;
 
-      MySqlParameter carDecription = new MySqlParameter();
-      carDecription.ParameterName = "@carDecription";
-      carDecription.Value = this.Description;
+      MySqlParameter carDescription = new MySqlParameter();
+      carDescription.ParameterName = "@carDescription";
+      carDescription.Value = this.Description;
 
       MySqlParameter carYear = new MySqlParameter();
       carYear.ParameterName = "@carYear";
@@ -64,6 +64,7 @@ namespace Cars.Models
 
       cmd.Parameters.Add(carMake);
       cmd.Parameters.Add(carModel);
+      cmd.Parameters.Add(carDescription);
       cmd.Parameters.Add(carYear);
       cmd.Parameters.Add(carPrice);
 
@@ -102,7 +103,7 @@ namespace Cars.Models
         string model = rdr.GetString(2);
         string description = rdr.GetString(3);
         string year = rdr.GetString(4);
-        int price = rdr.GetInt32(4);
+        int price = rdr.GetInt32(5);
         Car newCar = new Car(make, model, description, year, price);
         allCars.Add(newCar);
       }
